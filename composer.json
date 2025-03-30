@@ -1,0 +1,20 @@
+{
+    "name": "samer/site-decoiffure",
+    "description": "A website for a hair salon business.",
+    "type": "project",
+    "require": {
+        "symfony/phpunit-bridge": "14"
+    },
+    "autoload": {
+        "psr-4": {
+            "Samer\\SiteDecoiffure\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "John Smith",
+            "email": "john@example.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
