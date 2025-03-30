@@ -9,7 +9,6 @@ if (!isset($_SESSION['user_id'])) {
 
 $message = '';
 
-// Récupérer les services et les coiffeurs
 try {
     $stmtServices = $pdo->query("SELECT * FROM services");
     $services = $stmtServices->fetchAll(PDO::FETCH_ASSOC);
@@ -26,12 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['book_rdv'])) {
     $coiffeur_id = $_POST['coiffeur_id'];
     $date_rdv = $_POST['date_rdv'];
     
-    // Validation des données
     if (empty($service_id) || empty($coiffeur_id) || empty($date_rdv)) {
         $message = "Veuillez remplir tous les champs.";
     } else {
         try {
-            // Vérifier la disponibilité
             $stmt = $pdo->prepare("SELECT id FROM rendez_vous 
                                   WHERE coiffeur_id = ? AND date_rdv = ?");
             $stmt->execute([$coiffeur_id, $date_rdv]);

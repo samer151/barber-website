@@ -86,12 +86,10 @@ if (!$rdv) {
           </span>
         </p>
 
-        <!-- Section Payment Management -->
         <?php if ($rdv['statut'] == 'confirmé'): ?>
           <div class="mt-4">
             <h5>Paiement</h5>
             <p>Montant à payer : <?= htmlspecialchars($rdv['prix_service']) ?>€</p>
-            <!-- Button to proceed to payment via checkout -->
             <a href="checkout.php?rdv_id=<?= $rdv['id'] ?>" class="btn btn-success">
               <i class="fas fa-credit-card"></i> Payer le Rendez-vous
             </a>
@@ -102,7 +100,6 @@ if (!$rdv) {
           </div>
         <?php endif; ?>
         
-        <!-- Button to return to the list of appointments -->
         <div class="mt-4">
           <a href="rendezvous.php" class="btn btn-secondary">
             <i class="fas fa-arrow-left"></i> Retour

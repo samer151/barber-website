@@ -7,7 +7,6 @@ if (!isset($_SESSION['user_id'])) {
 }
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    // Mise à jour du statut en "annulé"
     $stmt = $pdo->prepare("UPDATE rendez_vous SET statut = 'annulé' WHERE id = ?");
     $stmt->execute([$id]);
 }

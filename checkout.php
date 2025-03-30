@@ -60,12 +60,10 @@ try {
          'cancel_url'  => 'https://yourdomain.com/cancel.php',
     ]);
 
-    // Insert the payment record into the 'paiements' table
     $stmt_payment = $pdo->prepare("INSERT INTO paiements (utilisateur_id, montant, date_paiement, statut) 
                                   VALUES (?, ?, ?, ?)");
     $stmt_payment->execute([$utilisateur_id, $amount / 100, $date_paiement, 'pending']); // 'pending' status for now
 
-    // Redirect to Stripe Checkout page
     header("Location: " . $session->url);
     exit;
 } catch (Exception $e) {
