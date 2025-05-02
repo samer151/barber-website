@@ -1,11 +1,24 @@
 <?php
 session_start();
 require_once 'config.php';
+require_once 'config.php';
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
 }
+
+$stmt = $pdo->prepare("SELECT role FROM utilisateurs WHERE id = ?");
+$stmt->execute([$_SESSION['user_id']]);
+$user = $stmt->fetch();
+
+if (!$user || $user['role'] !== 'barber') {
+    header("Location: services.php");
+    exit;
+}
+
+
+
 
 $message = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_service'])) {
@@ -17,8 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_service'])) {
     if (!empty($nom) && !empty($prix) && !empty($duree)) {
         $stmt = $pdo->prepare("INSERT INTO services (nom, description, prix, duree) VALUES (?, ?, ?, ?)");
         if ($stmt->execute([$nom, $description, $prix, $duree])) {
-            // Rediriger vers index.php après l'ajout du service
-            header("Location: index.php?service=added");
+            header("Location: services.php?service=added");
             exit;
         } else {
             $message = "Erreur lors de l'ajout du service.";

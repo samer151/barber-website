@@ -157,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['book_rdv'])) {
       const hours = selectedDate.getHours();
       const day = selectedDate.getDay();
       
-      if (day === 0 || day === 6) { // Dimanche = 0, Samedi = 6
+      if (day === 0 || day === 6) { 
         this.setCustomValidity('Le salon est fermé le week-end');
       } else if (hours < 9 || hours >= 19) {
         this.setCustomValidity('Heures d\'ouverture: 09:00 - 19:00');

@@ -7,10 +7,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
     $email = trim($_POST['email']);
     $mot_de_passe = $_POST['mot_de_passe']; 
     $role = $_POST['role'] ?? 'client'; 
-    $barber_code = trim($_POST['barber_code'] ?? ''); // Get barber code if provided
+    $barber_code = trim($_POST['barber_code'] ?? ''); 
     $errors = [];
 
-    // Validation for the general fields
     if (empty($nom)) {
         $errors[] = "Le nom est requis";
     }
@@ -23,31 +22,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
         $errors[] = "Le mot de passe doit avoir au moins 8 caractères";
     }
 
-    // Validate role and barber code if needed
     $allowed_roles = ['client', 'barber'];
     if (!in_array($role, $allowed_roles)) {
         $errors[] = "Rôle invalide";
     }
 
-    // If role is barber, validate the barber code
     if ($role === 'barber' && $barber_code !== 'samer.123') {
         $errors[] = "Code barber incorrect";
     }
 
-    // Check if the email already exists in the database
     if (empty($errors)) {
         try {
-            // Check if email already exists
             $stmt = $pdo->prepare("SELECT id FROM utilisateurs WHERE email = ?");
             $stmt->execute([$email]);
 
             if ($stmt->rowCount() > 0) {
                 $errors[] = "Cet email est déjà utilisé";
             } else {
-                // Hash the password
                 $hash = password_hash($mot_de_passe, PASSWORD_BCRYPT);
                 
-                // Insert the user into the database
                 $stmt = $pdo->prepare("INSERT INTO utilisateurs (nom, email, mot_de_passe, role) VALUES (?, ?, ?, ?)");
 
                 if ($stmt->execute([$nom, $email, $hash, $role])) {
@@ -118,7 +111,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
                             </select>
                         </div>
 
-                        <!-- Barber Code Input (Only appears if role is barber) -->
                         <div class="mb-3" id="barber-code-input" style="display: none;">
                             <label class="form-label"><i class="fas fa-key"></i> Code Barber</label>
                             <input type="text" name="barber_code" class="form-control" placeholder="Entrez votre code barber">
@@ -141,7 +133,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
 </div>
 
 <script>
-    // JavaScript to toggle the barber code input visibility
     const roleSelect = document.querySelector('select[name="role"]');
     const barberCodeInput = document.getElementById('barber-code-input');
     

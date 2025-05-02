@@ -2,13 +2,11 @@
 session_start();
 require_once 'config.php';
 
-// Redirect if user not logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
 }
 
-// Make sure an appointment ID is provided
 if (!isset($_GET['id'])) {
     header("Location: rendezvous.php");
     exit;
@@ -16,7 +14,6 @@ if (!isset($_GET['id'])) {
 
 $rdv_id = intval($_GET['id']);
 
-// Retrieve details of the selected appointment with JOINs for client, barber and service details
 $stmt = $pdo->prepare("SELECT r.*, 
                               u.nom AS client, 
                               c.nom AS coiffeur, 
